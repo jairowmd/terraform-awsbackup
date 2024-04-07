@@ -1,3 +1,6 @@
+/*
+
+
 # CRIAÇÃO KMS KEY
 
 # - (Optional) The description of the key as viewed in AWS console.
@@ -7,15 +10,16 @@
 # it defaults to 30. If the KMS key is a multi-Region primary key with replicas, 
 # the waiting period begins when the last of its replica keys is deleted. Otherwise, the waiting period begins immediately.
 
+*/
 
 resource "aws_kms_key" "backup_kms_key" {
 
-  description             = join("-", [var.customer_env, "KMS-Key-BackupJairo", var.AWS_REGION])
+  description = join("-", [var.customer_env, "KMS-Key-BackupJairo", var.AWS_REGION])
   # especifica o período de espera para exclusão da chave KMS após ser agendada para exclusão. No exemplo, a janela de exclusão é de 10 dias.
   deletion_window_in_days = 10
-    tags = {
+  tags = {
     Backup = "aws-backup"
-    Name = "${var.project_name}-kmskey"
+    Name   = "${var.project_name}-kmskey"
   }
 }
 
@@ -23,7 +27,7 @@ resource "aws_kms_key" "backup_kms_key" {
 # Recurso somente para nomear o kms key
 resource "aws_kms_alias" "backup_kms_key_jairo" {
   # name prefix  é um argumento do recurso aws_kms_alias. Ele define um prefixo para o nome do alias. 
-  name_prefix   = "alias/backup_kms_key/"
+  name_prefix = "alias/backup_kms_key/"
   # Este é outro argumento do recurso aws_kms_alias. Ele especifica o ID da chave KMS à qual o alias será direcionado.
   # No exemplo, o valor é obtido referenciando o key_id do recurso aws_kms_key criado anteriormente (aws_kms_key.backup_kms_key.key_id).
   target_key_id = aws_kms_key.backup_kms_key.key_id

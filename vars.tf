@@ -1,3 +1,5 @@
+# arquivo usado para declarar variáveis que serão usadas em vários recursos ou módulos Terraform dentro do projeto.
+
 # VARIAVEL DA REGIAO DO PROVISIONAMENTO DOS RECURSOS
 variable "AWS_REGION" {
   default = "us-east-1"
@@ -7,6 +9,13 @@ variable "AWS_REGION" {
 variable "customer_env" {
   default = "ENV_NAME"
 }
+
+variable "project_name" {
+  type        = string
+  description = "Project name to be used in to name the resources (Name tag)"
+}
+
+
 
 # 5AM (UTC) - 02AM (UTC-3)
 # Backup diário, retenção 7 dias

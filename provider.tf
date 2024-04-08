@@ -6,9 +6,19 @@ terraform {
     aws = {
       source  = "hashicorp/aws"
       version = "5.42.0"
+    }  
+  }
+
+  # configurando onde vai ficar o tfstate compartilhado - executar um terraform init novamente logo apos
+  # terraform init -migrate-state 
+    backend "s3" {
+
+      bucket = "backend-terraform-jwmd"
+      key = "dev/terraform.tfstate"
+      region = "us-east-1"
+
     }
 
-  }
 }
 
 

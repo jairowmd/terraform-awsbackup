@@ -23,7 +23,7 @@ resource "aws_kms_key" "backup_kms_key" {
     Backup = "aws-backup"
     Name   = "${var.project_name}-kmskey"
   }
-     policy                  = <<EOF
+  policy = <<EOF
 {
   "Version": "2012-10-17",
   "Id": "key-default-1",

@@ -12,6 +12,8 @@
 
 */
 
+# Configurando policy similar ao que temos no aws backup feita na mao, pensando em cross account
+
 resource "aws_kms_key" "backup_kms_key" {
 
   description = join("-", [var.customer_env, "KMS-Key-BackupJairo", var.AWS_REGION])
@@ -21,7 +23,53 @@ resource "aws_kms_key" "backup_kms_key" {
     Backup = "aws-backup"
     Name   = "${var.project_name}-kmskey"
   }
+     policy                  = <<EOF
+{
+  "Version": "2012-10-17",
+  "Id": "key-default-1",
+  "Statement": [
+    {
+      "Sid": "Enable IAM User Permissions",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+      },
+      "Action": "kms:*",
+      "Resource": "*"
+    },
+        {
+            "Sid": "Allow access for Key Administrators",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+            },
+            "Action": [
+                "kms:Create*",
+                "kms:Describe*",
+                "kms:Enable*",
+                "kms:List*",
+                "kms:Put*",
+                "kms:Update*",
+                "kms:Revoke*",
+                "kms:Disable*",
+                "kms:Get*",
+                "kms:Delete*",
+                "kms:TagResource",
+                "kms:UntagResource",
+                "kms:ScheduleKeyDeletion",
+                "kms:CancelKeyDeletion",
+                "kms:ReplicateKey",
+                "kms:UpdatePrimaryRegion"
+            ],
+            "Resource": "*"
+        }
+
+
+  ]
 }
+EOF
+}
+
 
 
 # Recurso somente para nomear o kms key
@@ -43,3 +91,5 @@ resource "aws_kms_alias" "backup_kms_key_jairo" {
 # The aws_kms_alias resource creates an alias for the KMS key. 
 # The name_prefix argument is used to create a unique alias that starts with a specified prefix. target_key_id is the ID of
 # the key defined in aws_kms_key to make sure the alias points to it.
+
+

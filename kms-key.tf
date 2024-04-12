@@ -77,13 +77,33 @@ resource "aws_kms_key" "backup_kms_key" {
                 "kms:Decrypt",
                 "kms:ReEncrypt*",
                 "kms:GenerateDataKey*",
-                "kms:DescribeKey"
+                "kms:DescribeKey",
+                "kms:GenerateDataKeyWithoutPlaintext"
             ],
             "Resource": "*"
+        },
+        {
+            "Sid": "Allow attachment of persistent resources",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": [
+                    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/backup.amazonaws.com/AWSServiceRoleForBackup",
+                    "arn:aws:iam::${local.source_account_number}:root"
+                ]
+            },
+            "Action": [
+                "kms:CreateGrant",
+                "kms:ListGrants",
+                "kms:RevokeGrant"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "Bool": {
+                    "kms:GrantIsForAWSResource": "true"
+                }
+            }
         }
-
-
-  ]
+    ]
 }
 EOF
 }

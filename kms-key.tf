@@ -69,7 +69,7 @@ resource "aws_kms_key" "backup_kms_key" {
             "Principal": {
                 "AWS": [
                     "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/backup.amazonaws.com/AWSServiceRoleForBackup",
-                    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+                    "arn:aws:iam::${local.source_account_number}:root"
                 ]
             },
             "Action": [

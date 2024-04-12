@@ -62,6 +62,24 @@ resource "aws_kms_key" "backup_kms_key" {
                 "kms:UpdatePrimaryRegion"
             ],
             "Resource": "*"
+        },
+        {
+            "Sid": "Allow use of the key",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": [
+                    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/backup.amazonaws.com/AWSServiceRoleForBackup",
+                    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+                ]
+            },
+            "Action": [
+                "kms:Encrypt",
+                "kms:Decrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*",
+                "kms:DescribeKey"
+            ],
+            "Resource": "*"
         }
 
 

@@ -17,8 +17,6 @@
 resource "aws_kms_key" "backup_kms_key" {
 
   description = join("-", [var.customer_env, "KMS-Key-BackupJairo", var.AWS_REGION])
-  # especifica o período de espera para exclusão da chave KMS após ser agendada para exclusão. No exemplo, a janela de exclusão é de 10 dias.
-
   tags = {
     Backup = "aws-backup"
     Name   = "${var.project_name}-kmskey"

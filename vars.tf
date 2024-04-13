@@ -7,7 +7,7 @@ variable "AWS_REGION" {
 
 # INFORMAR AQUI IDENTIFICACAO DO AMBIENTE - SERA UTILIZADO PARA IDENTIFICAR VAULT, BACKUP PLAN, KMS KEY
 variable "customer_env" {
-  default = "ENV_NAME"
+  default = "DEV"
 }
 
 variable "project_name" {

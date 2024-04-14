@@ -25,17 +25,17 @@ resource "aws_backup_plan" "Backup_diario_exceto_domingo" {
     # At 03:00 AM Etc/UTC (UTC+00:00), Monday through Saturday
     # copy action - inseri para longa retenção, é o passo de copia para o outro vault externo
 
-    schedule = "cron(0 3 ? * 2-7 *)"
+    schedule          = "cron(0 3 ? * 2-7 *)"
     start_window      = 480
     completion_window = 10080
     copy_action {
-       destination_vault_arn = local.destination_vault
+      destination_vault_arn = local.destination_vault
 
-       lifecycle {
-          delete_after = "10"
-        }
+      lifecycle {
+        delete_after = "10"
+      }
 
-     }
+    }
 
     lifecycle {
       # Keep daily backups for 7 days

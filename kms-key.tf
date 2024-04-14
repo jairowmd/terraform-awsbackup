@@ -111,6 +111,6 @@ EOF
 
 resource "aws_kms_alias" "backup_kms_key_jairo" {
 
-  name_prefix = "alias/backup_kms_key/"
+  name_prefix   = "alias/backup_kms_key/"
   target_key_id = aws_kms_key.backup_kms_key.key_id
 }

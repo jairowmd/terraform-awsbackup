@@ -15,7 +15,7 @@ resource "aws_backup_vault" "backup_vault" {
 }
 
 
-# configurar vault policy 
+# configuração da politica do vault  
  resource "aws_backup_vault_policy" "novo_backup_vault_policy" {
    backup_vault_name = aws_backup_vault.backup_vault.name
     policy = <<POLICY

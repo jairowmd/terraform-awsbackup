@@ -13,3 +13,26 @@ resource "aws_backup_vault" "backup_vault" {
   }
 
 }
+
+
+# configurar vault policy 
+ resource "aws_backup_vault_policy" "novo_backup_vault_policy" {
+   backup_vault_name = aws_backup_vault.backup_vault.name
+    policy = <<POLICY
+    {
+   "Version": "2012-10-17",
+   "Id": "default",
+   "Statement": [
+     {
+       "Sid": "Allow Tool Prod Account to copy into backup_vault",
+       "Effect": "Allow",
+       "Action": "backup:CopyIntoBackupVault",
+       "Resource": "*",
+       "Principal": {
+         "AWS": "arn:aws:iam::${local.source_account_number}:root"
+       }
+     }
+   ]
+ }
+ POLICY
+ }

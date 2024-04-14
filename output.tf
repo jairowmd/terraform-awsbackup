@@ -14,3 +14,4 @@ output "aws_caller_identity" {
 output "source_account_number" {
   value = local.source_account_number
 }
+

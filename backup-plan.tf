@@ -44,5 +44,20 @@ resource "aws_backup_plan" "Backup_diario_exceto_domingo" {
   }
 }
 
-# Backup Selection - inserir os parametros abaixo
+# Backup Selection - seleção de recursos que serão incluídos em um plano de backup no serviço AWS Backup
+# Name: O nome da seleção de backup. Este é um identificador único para a seleção de backup dentro do plano de backup.
+# Iam_role_arn : O ARN (Ada função IAM  que será usada pelo AWS Backup para acessar os recursos que serão incluídos na seleção de backup.
+# plan_id: O ID do plano de backup ao qual esta seleção de backup será associada. Isso indica a qual plano de backup os recursos selecionados serão adicionados para proteção.
+# tags: Tags que serão associadas aos backups dos recursos incluídos nesta seleção de backup. Isso permite identificar e organizar os backups com base em tags específicas.
 
+resource "aws_backup_selection" "Backup_diario_exceto_domingo_selection" {
+  plan_id      = aws_backup_plan.Backup_diario_exceto_domingo.id
+  name         = "backup_selection"
+  iam_role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/service-role/AWSBackupDefaultServiceRole"
+
+  selection_tag {
+    type  = "STRINGEQUALS"
+    key   = "Backup_diario_10_D"
+    value = "True"
+  }
+}

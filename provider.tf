@@ -9,19 +9,20 @@ terraform {
     }
   }
 
+  # Essa impostação do TFstate so vai funcionar se existir o bucket com o nome descrito. 
   # configurando onde vai ficar o tfstate compartilhado - executar um terraform init novamente logo apos
   # terraform init -migrate-state 
-  backend "s3" {
+  # backend "s3" {
 
-    bucket = "backend-terraform-jwmd"
-    key    = "dev/terraform.tfstate"
-    region = "us-east-1"
+  # bucket = "backend-terraform-jwmd"
+  # key    = "dev/terraform.tfstate"
+  # region = "us-east-1"
 
-  }
+  #}
 
 }
 
-
+# VARIAVEL DA REGIAO DO PROVISIONAMENTO DOS RECURSOS em vars.tf
 provider "aws" {
   region = var.AWS_REGION
 }

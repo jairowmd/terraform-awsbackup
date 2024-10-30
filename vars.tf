@@ -16,7 +16,6 @@ variable "project_name" {
 }
 
 
-
 # 5AM (UTC) - 02AM (UTC-3)
 # Backup diário, retenção 7 dias
 # Backup semanal, todo domingo, retenção 14 dias (duas semanas)

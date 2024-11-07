@@ -32,7 +32,7 @@ resource "aws_sns_topic_policy" "topic_policy" {
 resource "aws_sns_topic_subscription" "http_target" {
   topic_arn = aws_sns_topic.sns_topic_for_alerts.arn
   protocol  = "https"
-  endpoint  = "https://api.opsgenie.com/v1/json/amazonsns?apiKey=93df19ff-77b8-4061-bb73-40c022cf4d91"
+  endpoint  = local.opsgenie_endpoint
 }
 
 # Regra do EventBridge para monitorar falhas de jobs de backup no AWS Backup

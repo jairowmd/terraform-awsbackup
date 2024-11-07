@@ -28,6 +28,7 @@ Os seguintes recursos são criados no projeto:
 * **AWS Backup Vault**: Dois vaults são criados para armazenar os backups.
 * **AWS KMS Key**: Uma chave KMS é criada para criptografar os backups.
 * **Políticas de Vault**: As políticas de vault são definidas para controlar o acesso e a retenção dos backups nos vaults.
+* **Monitoramento** As políticas de Monitoramento são definidas para monitorar as falhas de backup e restore.
 
 **Como usar**
 

@@ -1,3 +1,6 @@
+# O arquivo backup-plan.tf define um plano de backup para uma conta AWS.
+# Plano de backup diario exceto domingo.
+
 # Backup Plan - Define um plano de backup chamado "Backup_diario_exceto_domingo".
 resource "aws_backup_plan" "Backup_diario_exceto_domingo" {
   name = "Backup_diario_exceto_domingo" # Nome do plano de backup para identificação no AWS.

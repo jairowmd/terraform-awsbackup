@@ -1,3 +1,7 @@
+
+# O arquivo data.tf é utilizado para definir dados que serão utilizados no projeto Terraform. 
+#Esses dados podem ser utilizados para configurar recursos, variáveis, etc.
+
 # pegando dados via API da AWS
 data "aws_caller_identity" "current" {}
 # Esta linha utiliza a fonte de dados 'aws_caller_identity' para obter informações sobre a identidade do chamador atual,

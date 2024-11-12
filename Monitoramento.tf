@@ -1,3 +1,5 @@
+# Módulo para monitoramento de falhas de backup com SNS e EventBridge
+
 # Configuração do SNS Topic para monitoramento de falhas de backup
 resource "aws_sns_topic" "sns_topic_for_alerts" {
   name = "AWSBackup-Alerts"

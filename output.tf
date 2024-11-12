@@ -1,4 +1,5 @@
-# arquivo de teste para mostrar variaveis e requests na tela antes do apply
+# Arquivo de saida do terraform
+# utilizado para mostrar variaveis e requests na tela antes do apply
 # estou usando com o data
 
 output "aws_region" {

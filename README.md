@@ -4,7 +4,7 @@
 
 **Descrição**
 
-Este projeto visa criar uma estrutura de backup para múltiplos recursos da AWS, incluindo RDS e DynamoDB, utilizando o serviço AWS Backup. O projeto utiliza o Terraform para criar e gerenciar os recursos da AWS.
+Este projeto visa criar uma estrutura de backup de curta e longa retenção utilizando vault lock para múltiplos recursos da AWS, incluindo RDS e DynamoDB, utilizando o serviço AWS Backup. O projeto utiliza o Terraform para criar e gerenciar os recursos da AWS.
 
 **Requisitos**
 
@@ -17,8 +17,11 @@ Este projeto visa criar uma estrutura de backup para múltiplos recursos da AWS,
 A arquitetura do projeto consiste em:
 
 * **Vaults**: Dois vaults são criados para armazenar os backups:
-	+ `backup_vault`: O primeiro vault é criado com o nome `backup_vault_${var.project_name}` e é utilizado para armazenar os backups dos recursos.
-	+ `backup_vault_2`: O segundo vault é criado com o nome `backup_vault_2${var.project_name}` e é utilizado para armazenar os backups dos recursos.
+	+ `backup_vault`: O primeiro vault é criado com o nome `backup_vault_${var.project_name}` e é utilizado para armazenar os backups dos recursos pensando em curta retenção.
+	+ `backup_vault_2`: O segundo vault é criado com o nome `backup_vault_2${var.project_name}` e é utilizado para armazenar os backups dos recursos pensando em longa retenção com vault lock.
+
+* **Chave KMS**: Uma chave KMS é criada para criptografar os backups.
+
 * **Políticas de Vault**: As políticas de vault são definidas para controlar o acesso e a retenção dos backups nos vaults.
 
 **Recursos**

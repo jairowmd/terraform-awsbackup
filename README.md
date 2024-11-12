@@ -1,86 +1,75 @@
+# Projeto de Backup com AWS Backup
 
+## Descrição
 
-**Projeto de Backup com AWS Backup**
+Este projeto visa criar uma estrutura de backup de curto e longo prazo utilizando `vault lock` para múltiplos recursos da AWS, incluindo RDS e DynamoDB, através do serviço AWS Backup. O projeto utiliza o Terraform para criar e gerenciar os recursos da AWS.
 
-**Descrição**
+## Requisitos
 
-Este projeto visa criar uma estrutura de backup de curto e longo prazo utilizando vault lock para múltiplos recursos da AWS, incluindo RDS e DynamoDB, utilizando o serviço AWS Backup. O projeto utiliza o Terraform para criar e gerenciar os recursos da AWS.
+- Conta AWS com permissões para criar recursos
+- Terraform instalado e configurado
+- AWS CLI instalado e configurado
 
-**Requisitos**
+## Recursos
 
-* Conta AWS com permissões para criar recursos
-* Terraform instalado e configurado
-* AWS CLI instalado e configurado
+Os seguintes recursos são configurados no projeto:
 
-**Recursos**
+- **AWS Backup Plan**: Plano de backup com backups diários, semanais e mensais.
+- **AWS Backup Selection**: Seleção de recursos a serem backupados.
+- **Tags**: Tags para identificar os recursos de backup.
+- **AWS Backup Vault**: Dois vaults para armazenamento de backups.
+- **Políticas de Vault**: Controle de acesso e retenção de backups nos vaults.
+- **Vault Lock**: Controle de acesso e retenção dos backups nos vaults.
+- **AWS KMS Key**: Chave KMS para criptografia dos backups.
+- **Monitoramento**: Políticas de monitoramento para alertas sobre falhas de backup e restauração via Opsgenie.
 
-Os seguintes recursos são criados no projeto:
+## Arquivos
 
-* **AWS Backup Plan**: Um plano de backup é criado para criar backups diários, semanais e mensais.
-* **AWS Backup Selection**: Uma seleção de recursos é criada para incluir os recursos a serem backupados.
-* **Tags**: As tags são utilizadas para identificar os recursos a serem backupados.
-* **AWS Backup Vault**: Dois vaults são criados para armazenar os backups.
-* **Políticas de Vault**: As políticas de vault são definidas para controlar o acesso e a retenção dos backups nos vaults.
-* **Vault Lock**: Um vault lock é criado para controlar o acesso e a retenção dos backups nos vaults.
-* **AWS KMS Key**: Uma chave KMS é criada para criptografar os backups.
-* **Monitoramento** As políticas de Monitoramento são definidas para monitorar as falhas de backup e restore com o opsgenie.
+- `backup-plan.tf`: Plano de backup com cronograma para backups diários, semanais e mensais.
+- `data.tf`: Dados do projeto, incluindo informações da conta e região AWS.
+- `kms-key.tf`: Configuração da chave KMS para criptografia.
+- `monitoramento.tf`: Políticas de monitoramento de falhas de backup e restauração.
+- `output.tf`: Saídas do projeto, incluindo IDs dos recursos criados.
+- `provider.tf`: Configuração do provedor AWS.
+- `terraform.tfvars`: Variáveis do projeto, incluindo o nome do projeto e a região.
+- `vars.tf`: Variáveis do projeto, incluindo nome e região.
+- `vault-lock.tf`: Configuração de `vault lock` para controle de acesso e retenção dos backups.
+- `vault.tf`: Configuração do cofre de backup para armazenamento dos backups.
 
-* **Arquivos:**
-	backup-plan.tf: Este arquivo contém o plano de backup para criar backups diários, semanais e mensais.
-	data.tf: Este arquivo contém os dados utilizados no projeto, incluindo informações sobre a conta AWS e a região da AWS.
-	kms-key.tf: Este arquivo contém a configuração da chave KMS utilizada para criptografar os backups.
-	monitoramento.tf: Este arquivo contém as políticas de monitoramento para monitorar as falhas de backup e restore.
-	output.tf: Este arquivo contém as saídas do projeto, incluindo o ID dos recursos criados.
-	provider.tf: Este arquivo contém a configuração do provedor da AWS.
-	terraform.tfvars: Este arquivo contém as variáveis utilizadas no projeto, incluindo o nome do projeto e a região da AWS.
-	vars.tf: Este arquivo contém as variáveis utilizadas no projeto, incluindo o nome do projeto e a regulação da AWS.
-	vault lock.tf: Este arquivo contém a configuração do vault lock para controlar o acesso e a retenção dos backups nos vaults.
-	vault.tf: Este arquivo contém a configuração do cofre de backup para armazenar os backups.
-
-**Como usar**
+## Como usar
 
 1. Clone o repositório: `git clone https://github.com/seu-usuario/projeto-backup-aws.git`
 2. Instale as dependências: `terraform init`
 3. Configure as variáveis: `terraform apply -var project_name=seu-projeto`
 4. Crie os recursos: `terraform apply`
 
-**Variáveis**
+## Variáveis
+* As seguintes variáveis são utilizadas no projeto:
 
-As seguintes variáveis são utilizadas no projeto:
+* `project_name`: Nome do projeto.
+* `region`: Região AWS para a criação dos recursos.
 
-* `project_name`: O nome do projeto.
-* `region`: A região da AWS onde os recursos serão criados.
+## Dependências
+* `locals.tf`: Variáveis para uso em vários locais do projeto.
+* `source_account_number`: Número da conta AWS utilizado no arquivo `vault-lock.tf`.
+* `destination_vault`: Identificação do primeiro vault usado no `backup-plan`.
+* `destination_vault_2`: Identificação do segundo vault usado no `backup-plan`.
+* `opsgenie_endpoint`: Endpoint Opsgenie para monitoramento.
 
-**Dependências**
+* Exemplo de configuração:
 
-* locals.tf: variáveis que podem ser usadas em vários lugares do projeto, sem precisar serem passadas como argumentos.
-	Informar aqui identificação do vault utilizado no arquivo backup-plan -  destination_vault
-	Informar aqui identificação do vault utilizado no arquivo backup-plan -  destination_vault_2
-	informar aqui identificação do opsgenie utilizado no arquivo monitoramento - opsgenie_endpoint
-	informar aqui número da conta AWS que vamos utilizar utilizada no arquivo vault lock.tf - source_account_number
-
-locals {
-  source_account_number = ""
-}
-
-#Informar nome do vault 1
-locals {
-  destination_vault = "arn:aws:backup:us-east-1:xxxxxx:backup-vault:backup_vault_awsbackup-development"
-}
+* `locals` {
+   source_account_number = "xxxxxxxx"
+   destination_vault = "arn:aws:backup:us-east-1:xxxxxx:backup-vault:backup_vault_awsbackup-development"
+   destination_vault_2 = "arn:aws:backup:us-east-1:xxxxxx:backup-vault:backup_vault_2awsbackup-development"
+   opsgenie_endpoint = "https://api.opsgenie.com"
+ }
 
 
-#Informar nome do vault 2
-locals {
-  destination_vault_2 = "arn:aws:backup:us-east-1:xxxxx:backup-vault:backup_vault_2awsbackup-development"
-}
 
-
-locals {
-  
-  opsgenie_endpoint = "https://xxxxxxx"
-
-}
-
+* `terraform.tfvars`: variáveis que podem ser usadas em vários lugares do projeto, sem precisar serem passadas como argumentos.
+	* project name utilizada para nomear recursos
+	* project_name = "awsbackup-development"
 
 
 **Contribuições**
